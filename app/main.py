@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 from typing import Dict, Optional
 from fastapi import FastAPI, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
 
 from app.config import get_settings
 from app.exceptions import register_exception_handlers
@@ -90,8 +91,18 @@ register_exception_handlers(app)
 
 
 # -----------------------------------------------------------------------------
-# Health Check Endpoint
+# Root & Health Check Endpoints
 # -----------------------------------------------------------------------------
+@app.get(
+    "/",
+    include_in_schema=False,
+    summary="Root redirect to Swagger UI"
+)
+async def root():
+    """Redirects base URL to interactive Swagger docs."""
+    return RedirectResponse(url="/docs")
+
+
 @app.get(
     "/health",
     tags=["System"],
