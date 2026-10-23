@@ -45,18 +45,19 @@ class LLMExtractor:
 
     def _initialize_client(self) -> None:
         """Initializes Groq or OpenAI client based on configuration."""
-        if self.settings.GROQ_API_KEY:
+        groq_key = (self.settings.GROQ_API_KEY or "").strip()
+        if groq_key and not groq_key.startswith("gsk_your_"):
             try:
                 from groq import Groq
                 self._groq_client = Groq(
-                    api_key=self.settings.GROQ_API_KEY,
+                    api_key=groq_key,
                     timeout=self.settings.REQUEST_TIMEOUT_SECONDS,
                 )
                 logger.info("Initialized Groq client with model %s", self.settings.GROQ_MODEL)
             except Exception as e:
                 logger.warning("Could not initialize Groq client: %s", str(e))
 
-        elif self.settings.OPENAI_API_KEY:
+        elif self.settings.OPENAI_API_KEY and not self.settings.OPENAI_API_KEY.startswith("sk-your"):
             try:
                 from openai import OpenAI
                 self._openai_client = OpenAI(
@@ -144,7 +145,19 @@ class LLMExtractor:
             try:
                 raw_response = self._call_llm(messages)
             except Exception as e:
-                # Upstream timeout or connection error
+                if self.settings.ALLOW_MOCK_FALLBACK:
+                    logger.warning("LLM call failed (%s). Falling back to mock generator.", str(e))
+                    mock_data = self._generate_mock_data(raw_text, schema_cls)
+                    elapsed_ms = (time.perf_counter() - start_time) * 1000
+                    metadata = ExtractionMetadata(
+                        model_used="synthetic-mock-fallback",
+                        processing_time_ms=round(elapsed_ms, 2),
+                        retry_count=0,
+                        is_mock=True,
+                        document_type=doc_type_name
+                    )
+                    return mock_data, metadata
+
                 if "timeout" in str(e).lower() or isinstance(e, httpx.TimeoutException):
                     raise LLMTimeoutException(f"LLM request timed out after {self.settings.REQUEST_TIMEOUT_SECONDS}s.")
                 raise LLMServiceException(f"Failed to communicate with LLM provider: {str(e)}")
