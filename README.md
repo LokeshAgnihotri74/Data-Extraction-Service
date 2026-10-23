@@ -1,6 +1,23 @@
 # 🚀 Antigravity Data Extraction Microservice
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/LokeshAgnihotri74/data-extraction-service)
+
 A production-ready Gen AI Data Extraction microservice built with **FastAPI**, **Pydantic v2**, and **Groq LLM API** (or OpenAI-compatible providers). It ingests raw, unstructured business documents (resumes, invoices, receipts) and extracts clean, fully-validated structured JSON.
+
+---
+
+## 🌐 Instant 1-Click Render Deployment
+
+Click the button above or open this link to deploy immediately to Render with all configurations pre-set:
+👉 **[Deploy to Render (1-Click)](https://render.com/deploy?repo=https://github.com/LokeshAgnihotri74/data-extraction-service)**
+
+1. Sign in to [Render](https://dashboard.render.com/) with your GitHub account (`LokeshAgnihotri74`).
+2. Click **Apply Blueprint** (Render automatically reads `render.yaml`).
+3. Set your `GROQ_API_KEY` in Render Environment Variables (optional; mock mode is active by default for instant testing).
+4. Render will build and deploy your service live at:
+   - **Live API**: `https://data-extraction-service.onrender.com`
+   - **Interactive Swagger Docs**: `https://data-extraction-service.onrender.com/docs`
+
 
 ---
 
