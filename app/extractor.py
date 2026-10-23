@@ -308,17 +308,17 @@ class LLMExtractor:
                 summary="Accomplished professional with deep expertise in software engineering and cloud systems.",
                 work_experience=[
                     WorkExperienceItem(
-                        company_name="Antigravity AI Tech Corp",
-                        job_title="Senior AI Engineer",
+                        company_name="Tech Solutions Corp",
+                        job_title="Senior Backend Engineer",
                         location="Remote / San Francisco",
                         start_date="2022-01",
                         end_date="Present",
                         is_current=True,
                         responsibilities=[
-                            "Architected high-throughput microservices using FastAPI and LLM backends.",
-                            "Developed structured data extraction pipelines with Pydantic v2."
+                            "Architected high-throughput microservices using FastAPI and distributed backend systems.",
+                            "Developed automated structured data extraction pipelines with Pydantic v2."
                         ],
-                        technologies_used=["Python", "FastAPI", "Groq", "Pydantic", "Docker"]
+                        technologies_used=["Python", "FastAPI", "Pydantic", "Docker", "PostgreSQL"]
                     )
                 ],
                 education=[
@@ -332,7 +332,7 @@ class LLMExtractor:
                     )
                 ],
                 skills=SkillSet(
-                    technical_skills=["Python", "FastAPI", "AsyncIO", "PostgreSQL", "LLM APIs"],
+                    technical_skills=["Python", "FastAPI", "AsyncIO", "PostgreSQL", "REST APIs"],
                     soft_skills=["System Design", "Technical Leadership", "Problem Solving"],
                     tools_and_frameworks=["Docker", "Git", "Kubernetes", "Pytest"],
                     languages=["English", "Spanish"]
@@ -348,10 +348,10 @@ class LLMExtractor:
                     purchase_order_number="PO-77821"
                 ),
                 vendor=EntityDetails(
-                    name="Antigravity AI Cloud Solutions Inc.",
+                    name="Enterprise Cloud Solutions Inc.",
                     tax_id="US-EIN-99-8877665",
                     address="100 Innovation Way, Suite 400, Mountain View, CA",
-                    email="billing@antigravity.ai",
+                    email="billing@cloudsolutions.com",
                     phone="+1 (800) 555-0199"
                 ),
                 customer=EntityDetails(

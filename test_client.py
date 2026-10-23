@@ -1,5 +1,5 @@
 """
-Comprehensive Test Client for Antigravity Data Extraction Microservice.
+Comprehensive Test Client for Document Data Extraction Microservice.
 Tests all endpoints, schemas, edge cases, and error responses.
 """
 
@@ -147,7 +147,7 @@ def get_client():
 
 def run_tests():
     print("=" * 70)
-    print(">>> ANTIGRAVITY DATA EXTRACTION SERVICE - VERIFICATION RUNNER")
+    print(">>> DOCUMENT DATA EXTRACTION SERVICE - VERIFICATION RUNNER")
     print("=" * 70)
 
     client = get_client()

@@ -14,7 +14,7 @@ def test_health_check():
     assert response.status_code == 200
     data = response.json()
     assert data["status"] == "healthy"
-    assert "model" in data
+    assert "service" in data
 
 
 def test_empty_payload_validation():

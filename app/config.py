@@ -26,7 +26,7 @@ class Settings(BaseSettings):
     ALLOW_MOCK_FALLBACK: bool = True
 
     # Server Configuration
-    APP_NAME: str = "Antigravity Data Extraction Service"
+    APP_NAME: str = "Document Data Extraction Service"
     APP_VERSION: str = "1.0.0"
     DEBUG: bool = False
     HOST: str = "0.0.0.0"

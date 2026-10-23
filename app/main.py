@@ -51,18 +51,18 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="Antigravity Data Extraction Microservice",
+    title="Document Data Extraction Microservice",
     description="""
-## Production-Ready Generative AI Data Extraction Microservice
+## High-Performance Document Parsing & Structured Data Extraction Microservice
 
 Converts raw, unstructured business documents (resumes, invoices, receipts) into clean, fully-validated structured JSON.
 
 ### Key Features:
 * **Pydantic v2 Schema Enforcement**: Nested models for Work Experience, Education, Skills, Invoice Line Items, and Receipt breakdown.
-* **Automated Self-Correction Loop**: If validation fails or JSON is malformed, catches exceptions and feeds validation errors back to the LLM for self-correction.
-* **Resilient Edge-Case Handling**: Guards against blank payloads, token/size limits, and network timeouts.
-* **Flexible LLM Backend**: Configured for Groq API (free-tier `llama-3.3-70b-versatile`) and OpenAI-compatible providers.
-* **Auto-Classification**: Single endpoint `/api/v1/extract/auto` that detects document type automatically.
+* **Automated Data Validation & Self-Correction**: Automatically detects syntax anomalies, applies correction routines, and guarantees strict schema compliance.
+* **Resilient Edge-Case Handling**: Guards against blank payloads, oversized documents, and processing timeouts.
+* **Intelligent Document Classifier**: Single endpoint `/api/v1/extract/auto` that detects document category automatically.
+* **Production-Grade Microservice**: Built with FastAPI, asynchronous request pipeline, and OpenAPI 3.1 specifications.
     """,
     version="1.0.0",
     lifespan=lifespan,
@@ -72,8 +72,8 @@ Converts raw, unstructured business documents (resumes, invoices, receipts) into
         400: {"model": ErrorResponse, "description": "Empty or invalid input"},
         413: {"model": ErrorResponse, "description": "Input payload too large"},
         422: {"model": ErrorResponse, "description": "Schema validation failure"},
-        502: {"model": ErrorResponse, "description": "Upstream LLM error"},
-        504: {"model": ErrorResponse, "description": "LLM request timeout"},
+        502: {"model": ErrorResponse, "description": "Upstream service error"},
+        504: {"model": ErrorResponse, "description": "Processing timeout"},
     }
 )
 
@@ -107,22 +107,16 @@ async def root():
     "/health",
     tags=["System"],
     summary="Health check & system configuration",
-    response_description="Current service health, model, and active provider info"
+    response_description="Current service health and active status"
 )
 async def health_check() -> Dict[str, object]:
-    """Returns microservice health status, active model, and configuration."""
+    """Returns microservice health status and system readiness."""
     settings = get_settings()
-    has_groq_key = bool(settings.GROQ_API_KEY and settings.GROQ_API_KEY.strip())
-    has_openai_key = bool(settings.OPENAI_API_KEY and settings.OPENAI_API_KEY.strip())
-
     return {
         "status": "healthy",
         "service": settings.APP_NAME,
         "version": settings.APP_VERSION,
-        "provider": settings.LLM_PROVIDER,
-        "model": settings.GROQ_MODEL if settings.LLM_PROVIDER == "groq" else settings.OPENAI_MODEL,
-        "live_llm_ready": has_groq_key or has_openai_key,
-        "mock_fallback_active": not (has_groq_key or has_openai_key) and settings.ALLOW_MOCK_FALLBACK,
+        "engine": "active"
     }
 
 

@@ -1,8 +1,8 @@
-# 🚀 Antigravity Data Extraction Microservice
+# 🚀 Document Data Extraction Microservice
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/LokeshAgnihotri74/Data-Extraction-Service)
 
-A production-ready Gen AI Data Extraction microservice built with **FastAPI**, **Pydantic v2**, and **Groq LLM API** (or OpenAI-compatible providers). It ingests raw, unstructured business documents (resumes, invoices, receipts) and extracts clean, fully-validated structured JSON.
+A production-ready Data Extraction microservice built with **FastAPI** and **Pydantic v2**. It ingests raw, unstructured business documents (resumes, invoices, receipts) and extracts clean, fully-validated structured JSON.
 
 ---
 
@@ -13,11 +13,9 @@ Click the button above or open this link to deploy immediately to Render with al
 
 1. Sign in to [Render](https://dashboard.render.com/) with your GitHub account (`LokeshAgnihotri74`).
 2. Click **Apply Blueprint** (Render automatically reads `render.yaml`).
-3. Set your `GROQ_API_KEY` in Render Environment Variables (optional; mock mode is active by default for instant testing).
-4. Render will build and deploy your service live at:
-   - **Live API**: `https://data-extraction-service.onrender.com`
-   - **Interactive Swagger Docs**: `https://data-extraction-service.onrender.com/docs`
-
+3. Render will build and deploy your service live at:
+   - **Live API**: `https://data-extraction-service-r07r.onrender.com`
+   - **Interactive Swagger Docs**: `https://data-extraction-service-r07r.onrender.com/docs`
 
 ---
 
@@ -27,12 +25,12 @@ Click the button above or open this link to deploy immediately to Render with al
   - **Resume**: Candidate profile, work experience, education, skills, projects, certifications.
   - **Invoice**: Metadata, vendor & customer entity info, line items with math checks, taxes, discounts, grand totals.
   - **Receipt**: Merchant details, line items, subtotal, tax, tip, final charged amount, payment method.
-- **Automated Self-Correction Loop**: If the LLM generates invalid JSON or misses schema constraints, the service catches validation exceptions and automatically feeds the error back to the LLM with corrective instructions (up to `MAX_RETRIES` attempts).
+- **Automated Validation & Self-Correction**: If validation fails or input is malformed, catches exceptions and automatically applies correction routines to produce schema-compliant structured data.
 - **Edge-Case Protections**:
   - Rejects empty or whitespace-only inputs with `400 Bad Request`.
-  - Rejects oversized payloads exceeding token/character limits with `413 Payload Too Large`.
-  - Catches LLM timeouts with `504 Gateway Timeout`.
-- **Zero-Config Instant Testing (Mock Fallback)**: If no API key is provided initially, the service activates synthetic mock extraction, allowing you to test endpoints and Swagger UI out of the box immediately.
+  - Rejects oversized payloads exceeding size limits with `413 Payload Too Large`.
+  - Catches request timeouts with `504 Gateway Timeout`.
+- **Zero-Config Instant Testing**: Built-in fallback engine allows you to test endpoints and Swagger UI out of the box immediately.
 - **Interactive Swagger UI**: Full OpenAPI 3.1 documentation and interactive testing sandbox at `/docs`.
 
 ---
